@@ -1,24 +1,10 @@
-const formTitle = document.getElementById('title');
-const formAuthor = document.getElementById('author');
-const formPages = document.getElementById('pages');
-const formread = document.getElementById('read');
-const formSubmit = document.getElementById('myForm');
+let newForm = document.querySelector('#form');
 
 
-
-
-function formInput(){
-    
-
-}
-
-formSubmit.onsubmit = function(e){
-formInput()
-
-  e.preventDefault()
-}
-
-
+let newBookButton = document.querySelector('#bookButton');
+newBookButton.addEventListener('click', function(){
+    newForm.style.display = 'block';
+})
 
 
 let myLibrary = [];
@@ -32,9 +18,58 @@ function Book(title, author, pages, read){
         return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`
     }
  
+    
 
 }
+Book.prototype.toggleRead = function(){
+    this.read =!this.read
+}
+function toggleRead(i){
+    myLibrary[i].toggleRead();
+    render();
+}
+function remove(index){
+    myLibrary.splice(index, 1);
+    render();
+}
+function render(){
+    let libraryEl = document.querySelector('#library');
+    libraryEl.innerHTML = "";
+    for(let i =0; i<myLibrary.length; i++){
+        // console.log(myLibrary[i]);
+        let book = myLibrary[i]
+        let bookEl = document.createElement('div');
+        bookEl.innerHTML = `
+        <p>${book.title}</p>
+        <p>${book.author}</p>
+        <p>${book.pages} Pages Read</p>
+        <p>${book.read ? "Read": "Not Read"}</p>
+        <div id="toggle"><button onclick="toggleRead(${i})">Toggle Read</button></div>
+        <div id= "Remove-btn"><button onclick="remove(${i})">Remove</button></div>
 
-function addBookToLibrary(book){
-    return myLibrary.push(book);
+        `
+        ;
+       libraryEl.appendChild(bookEl);
+
+
+    }
+}
+
+function addBookToLibrary(){
+let title = document.querySelector('#title').value;
+let author = document.querySelector('#author').value;
+let pages = document.querySelector('#pages').value;
+let read = document.querySelector('#read').checked;
+let newBook = new Book(title, author, pages, read);
+ myLibrary.push(newBook);
+ render();
+
+//  console.log(myLibrary);
+ 
+}
+
+newForm.onsubmit = function(e){
+    addBookToLibrary();
+
+e.preventDefault();
 }
