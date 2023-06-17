@@ -1,9 +1,13 @@
 let newForm = document.querySelector('#form');
+let formInputs = document.querySelectorAll('.inputs');
 
 
 let newBookButton = document.querySelector('#bookButton');
 newBookButton.addEventListener('click', function(){
+    
     newForm.style.display = 'block';
+    clearInput();
+    
 })
 
 
@@ -33,6 +37,7 @@ function remove(index){
     render();
 }
 function render(){
+    
     let libraryEl = document.querySelector('#library');
     libraryEl.innerHTML = "";
     for(let i =0; i<myLibrary.length; i++){
@@ -40,13 +45,14 @@ function render(){
         let book = myLibrary[i]
         let bookEl = document.createElement('div');
         bookEl.innerHTML = `
-        <p>${book.title}</p>
-        <p>${book.author}</p>
-        <p>${book.pages} Pages Read</p>
+        <div id="card">
+        <p><h4>${book.title}</h4></p>
+        <p>By: ${book.author}</p>
+        <p>${book.pages} Pages</p>
         <p>${book.read ? "Read": "Not Read"}</p>
         <div id="toggle"><button onclick="toggleRead(${i})">Toggle Read</button></div>
         <div id= "Remove-btn"><button onclick="remove(${i})">Remove</button></div>
-
+         </div>
         `
         ;
        libraryEl.appendChild(bookEl);
@@ -54,6 +60,7 @@ function render(){
 
     }
 }
+
 
 function addBookToLibrary(){
 let title = document.querySelector('#title').value;
@@ -68,8 +75,22 @@ let newBook = new Book(title, author, pages, read);
  
 }
 
+function clearInput(){
+   for(inputs of formInputs){
+    inputs.value = "";
+   }
+}
+
+
 newForm.onsubmit = function(e){
+    e.preventDefault();
     addBookToLibrary();
 
-e.preventDefault();
+    newForm.style.display = 'none';
+
+    
+    
+    
+
+
 }
