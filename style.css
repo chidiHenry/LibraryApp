@@ -11,6 +11,7 @@
     margin-bottom: 10px;
     text-align: center;
     display: grid;
+    
 }
 #form{
     padding: 25px 45px;
@@ -31,6 +32,7 @@
     font-style:normal;
     font-family:Arial, Helvetica, sans-serif;
     text-align: center;
+    font-weight: bold;
 }
 #form label{
     display: block;
